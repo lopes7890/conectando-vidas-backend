@@ -1,7 +1,7 @@
 import { Request } from "express";
 import prisma from "../database/dbConfig.js";
 import { encrypt } from "../utils/encryptPassword.js";
-import { registerUserInDataBase } from "../services/registerUser.js";
+import { RegisterUserService } from "../services/registerUser.js";
 import { Usuarios_tipo } from "@prisma/client";
 
 interface User {
@@ -52,8 +52,10 @@ class CreateUserController {
                 age: age, 
                 type: type
             } 
+
+            const registerService = new RegisterUserService();
             
-            const register = await registerUserInDataBase(user);
+            const register = await registerService.registerUserInDataBase(user);
 
             if (typeof register === "object"){
                 return "registered failed"
