@@ -17,9 +17,9 @@ class NewAnimalController {
                 };
     
                 return registerNewAnimal;
-            }
+            };
 
-            throw new UnauthorizedError("not authorized")
+            throw new UnauthorizedError("not authorized");
 
         } catch (error) {
             return {message: error};

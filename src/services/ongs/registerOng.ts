@@ -16,11 +16,11 @@ class NewOngService {
     async registerOngInDataBase(dataOng: Ong) {
         try{
 
-            const { name, description, phone, street, number, postalCode, city, state } = dataOng as Ong
+            const { name, description, phone, street, number, postalCode, city, state } = dataOng as Ong;
 
             if(!name){
                 return "fill in all the data";
-            }
+            };
 
             await prisma.oNGs.create({
                 data: {
@@ -33,14 +33,14 @@ class NewOngService {
                     cidade: city,
                     estado: state
                 }
-            })
+            });
 
             return "ONG registered successfully";
 
         } catch (error){
-            return {message: error}
-        }
-    }
-}
+            return {message: error};
+        };
+    };
+};
 
-export {NewOngService}
+export {NewOngService};

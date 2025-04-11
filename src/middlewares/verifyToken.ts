@@ -15,14 +15,14 @@ export const verifyTokenLogin = async (req: Request, res: Response, next: NextFu
     const authHeader = req.headers.authorization;
 
     if (!authHeader) {
-        throw new UnauthorizedError("not authorized")
-    }
+        throw new UnauthorizedError("not authorized");
+    };
 
     const secret = process.env.SECRET;
 
     if (!secret) {
       throw new NotFoundError("internal fail, try again");
-    }
+    };
 
     const { id_usuario } = jwt.verify(authHeader, secret) as TokenPayload;
 
@@ -32,12 +32,12 @@ export const verifyTokenLogin = async (req: Request, res: Response, next: NextFu
 
 
     if(!user){
-      throw new UnauthorizedError("user notfound")
-    }
+      throw new UnauthorizedError("user notfound");
+    };
 
-    const { senha: _, ...loggedUser } = user
+    const { senha: _, ...loggedUser } = user;
 
-    req.user = loggedUser
+    req.user = loggedUser;
 
     next();
 

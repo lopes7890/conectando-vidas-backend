@@ -11,14 +11,14 @@ class CreateUserController {
             const registerNewUser = await registerService.registerUserInDataBase(req.body);
 
             if (typeof registerNewUser === "object"){
-                return "registered failed"
+                return "registered failed";
             };
 
             return registerNewUser;
 
         } catch (error) {
-            console.log(error)
-            return {message: error}
+            console.log(error);
+            return {message: error};
         };
 
     };

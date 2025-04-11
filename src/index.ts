@@ -9,18 +9,18 @@ import routerUser from "./routes/userRoutes.js";
 import animalsRoutes from "./routes/animalsRoutes.js";
 import ongsRouter from "./routes/ongsRoutes.js";
 
-const app = express()
+const app = express();
 const port = process.env.PORT;
 
-app.use(cors())
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 app.use(routerUser);
 app.use(animalsRoutes);
-app.use(ongsRouter)
+app.use(ongsRouter);
 
-app.use(errorMiddleware as ErrorRequestHandler)
+app.use(errorMiddleware as ErrorRequestHandler);
 
 app.listen(port, () => {
     console.log("Servidor rodando na porta: ", port);
-})
+});

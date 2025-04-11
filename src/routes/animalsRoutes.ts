@@ -15,22 +15,22 @@ animalsRoutes.post("/cadastro/animais", verifyTokenLogin, async (req: Request, r
             if(newAnimalToAdotion === "animal registered successfully"){                  
                 res.status(200).json({message: newAnimalToAdotion});
                 return;
-            }   
+            };  
             if(newAnimalToAdotion === "internal fail, try again"){
-                res.status(500).json({message: newAnimalToAdotion})
+                res.status(500).json({message: newAnimalToAdotion});
                 return;
-            }           
-            if(newAnimalToAdotion === "fill in all the data"){
-                res.status(409).json({message: newAnimalToAdotion})
+            };          
+            if(newAnimalToAdotion === "fill in all the data" || newAnimalToAdotion === "existing animal"){
+                res.status(409).json({message: newAnimalToAdotion});
                 return;
-            }   
-        } 
+            };   
+        }; 
 
-        res.status(500).json({error: newAnimalToAdotion})
+        res.status(500).json({error: newAnimalToAdotion});
 
     } catch (error) {
-        next(error)
-    }
-})
+        next(error);
+    };
+});
 
 export default animalsRoutes;

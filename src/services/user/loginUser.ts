@@ -31,8 +31,8 @@ class ServiceLoginUser {
 
             return token;
         } catch (error) {
-            console.log(error)
-            return {message: error}
+            console.log(error);
+            return {message: error};
         };
     };
 };

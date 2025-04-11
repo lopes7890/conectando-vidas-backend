@@ -23,8 +23,8 @@ class LoginUserController{
             
 
         } catch (error) {
-            console.log(error)
-            return {message: error}
+            console.log(error);
+            return {message: error};
         };
     };
 

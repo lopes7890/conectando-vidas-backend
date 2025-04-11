@@ -11,7 +11,7 @@ const routerUser = Router();
 
 routerUser.post("/cadastro", async (req: Request, res:Response, next: NextFunction) => {
     try{
-        const newUserRegister = await new CreateUserController().newUser(req)
+        const newUserRegister = await new CreateUserController().newUser(req);
         if (typeof newUserRegister === "string") {
             switch (newUserRegister) {
                 case "existing user":

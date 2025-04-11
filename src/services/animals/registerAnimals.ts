@@ -21,6 +21,16 @@ class NewAnimalService {
                 return "fill in all the data";
             };
 
+            const verify = await prisma.animais.findFirst({
+                where: {nome: name,
+                        id_ong: id_ong
+                }
+            })
+
+            if (verify){
+                return "existing animal";
+            }
+
             await prisma.animais.create({
                 data: {
                     nome: name,

@@ -1,4 +1,4 @@
-import prisma from "../../database/dbConfig.js"
+import prisma from "../../database/dbConfig.js";
 
 class DeleteServiceUser {
     async serviceDeleteUser(id: number) {
@@ -10,10 +10,10 @@ class DeleteServiceUser {
             return "deleted with success";
         } catch (error) {
             console.log(error)
-            return {message: error}
-        }
+            return {message: error};
+        };
 
-    }
-}
+    };
+};
 
-export {DeleteServiceUser}
+export {DeleteServiceUser};
