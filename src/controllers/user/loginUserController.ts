@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { ServiceLoginUser } from "../services/loginUser.js";
+import { ServiceLoginUser } from "../../services/user/loginUser.js";
 
 interface LoginUser {
     email: string,

@@ -1,5 +1,5 @@
 import { Request } from "express";
-import { RegisterUserService } from "../services/registerUser.js";
+import { RegisterUserService } from "../../services/user/registerUser.js";
 
 
 

@@ -1,6 +1,6 @@
-import prisma from "../database/dbConfig.js";
+import prisma from "../../database/dbConfig.js";
 import { Usuarios_tipo } from "@prisma/client";
-import { encrypt } from "../utils/encryptPassword.js";
+import { encrypt } from "../../utils/encryptPassword.js";
 
 interface User {
     name: string, 

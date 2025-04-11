@@ -1,6 +1,6 @@
-import prisma from "../database/dbConfig.js";
-import { comparePasswordUser } from "../utils/comparePassword.js";
-import { tokenLoginUser } from "../utils/generateTokenLogin.js";
+import prisma from "../../database/dbConfig.js";
+import { comparePasswordUser } from "../../utils/comparePassword.js";
+import { tokenLoginUser } from "../../utils/generateTokenLogin.js";
 
 class ServiceLoginUser {
     async serviceLogin(email: string, password: string) {
