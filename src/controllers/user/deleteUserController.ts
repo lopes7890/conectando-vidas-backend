@@ -11,7 +11,7 @@ class DeleteUser {
                 return deleteService;
             };           
         } catch (error) {
-
+            return {message: error}
         };
     };
 };

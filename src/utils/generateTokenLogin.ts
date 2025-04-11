@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import "dotenv/config";
 
-export const tokenLoginUser = (id: number, name: string, email: string): string | null => {
+export const tokenLoginUser = (id: number): string | null => {
     try{
         const secret = process.env.SECRET;
 
         if(secret){
-            return jwt.sign({id: id, name: name, email: email}, secret, {expiresIn: "1d"})
+            return jwt.sign({id_usuario: id}, secret, {expiresIn: "1d"})
         };
 
         return null;

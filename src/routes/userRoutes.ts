@@ -11,19 +11,19 @@ const routerUser = Router();
 
 routerUser.post("/cadastro", async (req: Request, res:Response, next: NextFunction) => {
     try{
-        const newUser = await new CreateUserController().newUser(req)
-        if (typeof newUser === "string") {
-            switch (newUser) {
+        const newUserRegister = await new CreateUserController().newUser(req)
+        if (typeof newUserRegister === "string") {
+            switch (newUserRegister) {
                 case "existing user":
                 case "fill in all the data":
-                    res.status(409).send({ message: newUser }); 
+                    res.status(409).json({ message: newUserRegister }); 
                     return;
                 case "internal fail, try again":
                 case "registered failed":
-                    res.status(500).send({ message: newUser }); 
+                    res.status(500).json({ message: newUserRegister }); 
                     return;
                 case "registered successfully":
-                    res.status(201).send({ message: newUser }); 
+                    res.status(201).json({ message: newUserRegister }); 
                     return;
             };
         };
@@ -42,14 +42,14 @@ routerUser.post("/login", async (req: Request, res: Response, next: NextFunction
                 case "provide email and password":
                 case "user not found":
                 case "incorrect password":
-                    res.status(409).send({ message: userLogin });
+                    res.status(409).json({ message: userLogin });
                     return; 
                 case "internal fail, try again":
-                    res.status(500).send({ message: userLogin });
+                    res.status(500).json({ message: userLogin });
                     return;
             };
 
-            res.status(200).send(userLogin);
+            res.status(200).json(userLogin);
             return;
         };
         return;
@@ -75,7 +75,7 @@ routerUser.delete("/usuario", verifyTokenLogin, async (req: Request, res: Respon
     try{
         const deleteUser = await new DeleteUser().userDelete(req);
         if (typeof deleteUser === "string"){
-            res.status(200).send({message: deleteUser});
+            res.status(200).json({message: deleteUser});
         };
     } catch (error) {
         next(error)

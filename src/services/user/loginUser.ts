@@ -23,7 +23,7 @@ class ServiceLoginUser {
                 return "incorrect password";
             };
 
-            const token = tokenLoginUser(verify.id_usuario, verify.nome, verify.email);
+            const token = tokenLoginUser(verify.id_usuario);
 
             if(!token){
                 return "internal fail, try again";
@@ -31,6 +31,7 @@ class ServiceLoginUser {
 
             return token;
         } catch (error) {
+            console.log(error)
             return {message: error}
         };
     };

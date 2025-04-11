@@ -17,6 +17,7 @@ export const verifyTokenLogin = async (req: Request, res: Response, next: NextFu
     if (!authHeader) {
         throw new UnauthorizedError("not authorized")
     }
+
     const secret = process.env.SECRET;
 
     if (!secret) {
@@ -28,6 +29,7 @@ export const verifyTokenLogin = async (req: Request, res: Response, next: NextFu
     const user = await prisma.usuarios.findFirst({
       where: {id_usuario: id_usuario}
     });
+
 
     if(!user){
       throw new UnauthorizedError("user notfound")

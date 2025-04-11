@@ -9,6 +9,7 @@ class DeleteServiceUser {
 
             return "deleted with success";
         } catch (error) {
+            console.log(error)
             return {message: error}
         }
 

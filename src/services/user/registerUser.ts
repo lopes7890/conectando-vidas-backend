@@ -60,6 +60,7 @@ class RegisterUserService{
             return "registered successfully";
 
         } catch (error) {
+            console.log(error)
             return {message: error}
         };
     };
