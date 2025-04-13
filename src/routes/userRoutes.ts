@@ -1,15 +1,17 @@
 import { Request, Response, Router, NextFunction } from "express";
 import { verifyTokenLogin } from "../middlewares/verifyToken.js";
 
+
+// import class
 import { CreateUserController } from "../controllers/user/newUserController.js";
 import { LoginUserController } from "../controllers/user/loginUserController.js";
 import { DataUser } from "../controllers/user/dataUserController.js";
 import { DeleteUser } from "../controllers/user/deleteUserController.js";
 
 
-const routerUser = Router();
+const userRoutes = Router();
 
-routerUser.post("/cadastro", async (req: Request, res:Response, next: NextFunction) => {
+userRoutes.post("/cadastro", async (req: Request, res:Response, next: NextFunction) => {
     try{
         const newUserRegister = await new CreateUserController().newUser(req);
         if (typeof newUserRegister === "string") {
@@ -33,7 +35,7 @@ routerUser.post("/cadastro", async (req: Request, res:Response, next: NextFuncti
     };
 });
 
-routerUser.post("/login", async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.post("/login", async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userLogin = await new LoginUserController().controllerLogin(req);
 
@@ -59,7 +61,7 @@ routerUser.post("/login", async (req: Request, res: Response, next: NextFunction
     };
 });
 
-routerUser.get("/usuario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.get("/usuario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
 
         const userData = await new DataUser().user(req, res);
@@ -71,7 +73,7 @@ routerUser.get("/usuario", verifyTokenLogin, async (req: Request, res: Response,
     };
 });
 
-routerUser.delete("/usuario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+userRoutes.delete("/usuario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
         const deleteUser = await new DeleteUser().userDelete(req);
         if (typeof deleteUser === "string"){
@@ -82,4 +84,4 @@ routerUser.delete("/usuario", verifyTokenLogin, async (req: Request, res: Respon
     };
 });
 
-export default routerUser;
+export default userRoutes;

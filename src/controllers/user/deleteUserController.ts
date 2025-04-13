@@ -1,4 +1,6 @@
 import { Request } from "express";
+
+// import class
 import { DeleteServiceUser } from "../../services/user/deleteUser.js";
 
 class DeleteUser {

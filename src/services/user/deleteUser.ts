@@ -7,7 +7,7 @@ class DeleteServiceUser {
                 where: {id_usuario: id}
             });
 
-            return "deleted with success";
+            return "user deleted with success";
         } catch (error) {
             console.log(error)
             return {message: error};

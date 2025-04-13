@@ -16,7 +16,7 @@ class DeleteOngService {
                 where: {id_ong: id_ong}
             });
     
-            return "deleted with success";
+            return "ONG deleted with success";
         } catch (error){
             return {message: error};
         };

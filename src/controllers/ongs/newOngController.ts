@@ -1,6 +1,6 @@
 import { Request } from "express";
 
-
+// import class
 import { NewOngService } from "../../services/ongs/registerOng.js";
 
 class NewOngController {

@@ -5,7 +5,7 @@ import cors from "cors";
 import "dotenv/config";
 
 // routes
-import routerUser from "./routes/userRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
 import animalsRoutes from "./routes/animalsRoutes.js";
 import ongsRouter from "./routes/ongsRoutes.js";
 
@@ -15,7 +15,7 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 
-app.use(routerUser);
+app.use(userRoutes);
 app.use(animalsRoutes);
 app.use(ongsRouter);
 
