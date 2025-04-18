@@ -39,7 +39,7 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req, res, next) => {
         const idAnimal = req.params.id;
         const dataAnimal = await new DataAnimalController().getAnimal(Number(idAnimal));
         if (typeof dataAnimal === "string") {
-            if (dataAnimal === "fill in all the data") {
+            if (dataAnimal === "fill in all the data" || dataAnimal === "animal not existed") {
                 res.status(400).json({ message: dataAnimal });
                 return;
             }
@@ -60,7 +60,7 @@ animalsRoutes.delete("/animal", verifyTokenLogin, async (req, res, next) => {
     try {
         const deleteAnimal = await new DeleteAnimal().removeAnimal(req);
         if (typeof deleteAnimal === "string") {
-            if (deleteAnimal === "fill in all the data") {
+            if (deleteAnimal === "fill in all the data" || deleteAnimal === "animal not existed") {
                 res.status(400).json({ message: deleteAnimal });
                 return;
             }

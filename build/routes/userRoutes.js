@@ -3,8 +3,8 @@ import { verifyTokenLogin } from "../middlewares/verifyToken.js";
 // import class
 import { CreateUserController } from "../controllers/user/newUserController.js";
 import { LoginUserController } from "../controllers/user/loginUserController.js";
-import { DataUser } from "../controllers/user/dataUserController.js";
-import { DeleteUser } from "../controllers/user/deleteUserController.js";
+import { DataUserController } from "../controllers/user/dataUserController.js";
+import { DeleteUserController } from "../controllers/user/deleteUserController.js";
 const userRoutes = Router();
 userRoutes.post("/cadastro/usuario", async (req, res, next) => {
     try {
@@ -26,6 +26,7 @@ userRoutes.post("/cadastro/usuario", async (req, res, next) => {
             ;
         }
         ;
+        res.status(500).json({ error: newUserRegister });
         return;
     }
     catch (error) {
@@ -52,6 +53,7 @@ userRoutes.post("/login", async (req, res, next) => {
             return;
         }
         ;
+        res.status(500).json({ error: userLogin });
         return;
     }
     catch (error) {
@@ -61,7 +63,7 @@ userRoutes.post("/login", async (req, res, next) => {
 });
 userRoutes.get("/usuario", verifyTokenLogin, async (req, res, next) => {
     try {
-        const userData = await new DataUser().user(req, res);
+        const userData = await new DataUserController().user(req, res);
         res.send(userData);
         return;
     }
@@ -72,11 +74,16 @@ userRoutes.get("/usuario", verifyTokenLogin, async (req, res, next) => {
 });
 userRoutes.delete("/usuario", verifyTokenLogin, async (req, res, next) => {
     try {
-        const deleteUser = await new DeleteUser().userDelete(req);
+        const deleteUser = await new DeleteUserController().userDelete(req);
         if (typeof deleteUser === "string") {
+            if (deleteUser === "user not existed") {
+                res.status(400).json({ message: deleteUser });
+                return;
+            }
             res.status(200).json({ message: deleteUser });
         }
         ;
+        res.status(500).json({ error: deleteUser });
     }
     catch (error) {
         next(error);

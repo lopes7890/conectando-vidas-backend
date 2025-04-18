@@ -2,10 +2,13 @@ import prisma from "../../database/dbConfig.js";
 class DeleteServiceUser {
     async serviceDeleteUser(id) {
         try {
-            await prisma.usuarios.delete({
+            const deletedUser = await prisma.usuarios.delete({
                 where: { id_usuario: id }
             });
-            return "user deleted with success";
+            if (deletedUser) {
+                return "user deleted with success";
+            }
+            return "user not existed";
         }
         catch (error) {
             console.log(error);

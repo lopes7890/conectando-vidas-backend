@@ -52,7 +52,7 @@ storiesRoutes.delete("/historias_de_sucesso", verifyTokenLogin, async (req, res,
     try {
         const deleteStorie = await new DeleteSuccessStoriesController().deleteStories(req);
         if (typeof deleteStorie === "string") {
-            if (deleteStorie === "fill in all the data") {
+            if (deleteStorie === "fill in all the data" || deleteStorie === "storie not existed") {
                 res.status(400).json({ message: deleteStorie });
                 return;
             }

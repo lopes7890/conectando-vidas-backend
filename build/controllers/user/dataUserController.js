@@ -1,4 +1,4 @@
-class DataUser {
+class DataUserController {
     async user(req, res) {
         res.status(200).json(req.user);
         return;
@@ -6,4 +6,4 @@ class DataUser {
     ;
 }
 ;
-export { DataUser };
+export { DataUserController };

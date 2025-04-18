@@ -13,6 +13,7 @@ class DataAnimalService {
                 return dataAnimal;
             }
             ;
+            return "animal not existed";
         }
         catch (error) {
             return error;

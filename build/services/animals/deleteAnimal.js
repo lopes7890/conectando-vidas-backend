@@ -8,10 +8,13 @@ class DeleteAnimalService {
                 return "fill in all the data";
             }
             ;
-            await prisma.animais.delete({
+            const deletedAnimal = await prisma.animais.delete({
                 where: { id_animal: idAnimal }
             });
-            return "animal deleted with success";
+            if (deletedAnimal) {
+                return "animal deleted with success";
+            }
+            return "animal not existed";
         }
         catch (error) {
             return { message: error };
