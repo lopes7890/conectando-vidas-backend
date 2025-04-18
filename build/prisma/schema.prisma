@@ -1,0 +1,144 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Adocoes {
+  id_adocao             Int                  @id @default(autoincrement())
+  id_usuario            Int?
+  id_animal             Int?
+  idade_adotante        Int?
+  motivo                String?              @db.Text
+  experiencia           Adocoes_experiencia?
+  descricao_experiencia String?              @db.Text
+  observacoes           String?              @db.Text
+  data_adocao           DateTime?            @db.Date
+  Usuarios              Usuarios?            @relation(fields: [id_usuario], references: [id_usuario], onDelete: NoAction, onUpdate: NoAction, map: "Adocoes_ibfk_1")
+  Animais               Animais?             @relation(fields: [id_animal], references: [id_animal], onDelete: NoAction, onUpdate: NoAction, map: "Adocoes_ibfk_2")
+
+  @@index([id_animal], map: "id_animal")
+  @@index([id_usuario], map: "id_usuario")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Animais {
+  id_animal            Int                    @id @default(autoincrement())
+  nome                 String                 @db.VarChar(100)
+  descricao            String?                @db.Text
+  idade                Int?
+  sexo                 Animais_sexo
+  foto                 String?                @db.VarChar(200)
+  status_adocao        Animais_status_adocao? @default(dispon_vel)
+  id_ong               Int
+  Adocoes              Adocoes[]
+  ONGs                 ONGs                   @relation(fields: [id_ong], references: [id_ong], onDelete: Cascade, onUpdate: NoAction, map: "Animais_ibfk_1")
+  Historias_de_Sucesso Historias_de_Sucesso[]
+
+  @@index([id_ong], map: "idx_id_ong_unique")
+  @@index([status_adocao], map: "idx_status_adocao")
+}
+
+/// This table contains check constraints and requires additional setup for migrations. Visit https://pris.ly/d/check-constraints for more info.
+model Doacoes {
+  id_doacao   Int       @id @default(autoincrement())
+  id_usuario  Int
+  valor       Decimal?  @db.Decimal(10, 2)
+  data_doacao DateTime? @db.Date
+  tipo_doacao String?   @db.VarChar(20)
+  descricao   String?   @db.Text
+  Usuarios    Usuarios  @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade, onUpdate: NoAction, map: "Doacoes_ibfk_1")
+
+  @@index([id_usuario], map: "idx_id_usuario")
+  @@index([tipo_doacao], map: "idx_tipo_doacao")
+}
+
+model Historias_de_Sucesso {
+  id_historia     Int       @id @default(autoincrement())
+  id_animal       Int
+  titulo          String    @db.VarChar(200)
+  descricao       String?   @db.Text
+  foto            String?   @db.VarChar(200)
+  data_publicacao DateTime? @db.Date
+  Animais         Animais   @relation(fields: [id_animal], references: [id_animal], onDelete: Cascade, onUpdate: NoAction, map: "Historias_de_Sucesso_ibfk_1")
+
+  @@index([id_animal], map: "id_animal")
+}
+
+model ONGs {
+  id_ong    Int       @id @default(autoincrement())
+  nome      String    @db.VarChar(100)
+  descricao String?   @db.Text
+  contato   String?   @db.VarChar(100)
+  rua       String?   @db.VarChar(100)
+  numero    String?   @db.VarChar(10)
+  cep       String?   @db.VarChar(10)
+  cidade    String?   @db.VarChar(100)
+  estado    String?   @db.VarChar(50)
+  Animais   Animais[]
+}
+
+model Usuarios {
+  id_usuario   Int            @id @default(autoincrement())
+  nome         String         @db.VarChar(100)
+  email        String         @unique(map: "email") @db.VarChar(100)
+  senha        String         @db.VarChar(255)
+  telefone     String?        @db.VarChar(20)
+  rua          String?        @db.VarChar(100)
+  numero       String?        @db.VarChar(10)
+  cep          String?        @db.VarChar(10)
+  cidade       String?        @db.VarChar(100)
+  estado       String?        @db.VarChar(50)
+  tipo         Usuarios_tipo
+  idade        Int?
+  Adocoes      Adocoes[]
+  Doacoes      Doacoes[]
+  Voluntariado Voluntariado[]
+}
+
+model Voluntariado {
+  id_voluntariado           Int                       @id @default(autoincrement())
+  id_usuario                Int
+  area_atuacao              String?                   @db.VarChar(100)
+  disponibilidade           String?                   @db.VarChar(100)
+  data_cadastro             DateTime?                 @db.Date
+  idade                     Int?
+  experiencia               Voluntariado_experiencia?
+  descricao_experiencia     String?                   @db.Text
+  motivo                    String?                   @db.Text
+  areas_interesse           String?
+  disponibilidade_detalhada String?                   @db.VarChar(100)
+  Usuarios                  Usuarios                  @relation(fields: [id_usuario], references: [id_usuario], onDelete: Cascade, onUpdate: NoAction, map: "Voluntariado_ibfk_1")
+
+  @@index([id_usuario], map: "id_usuario")
+}
+
+enum Animais_sexo {
+  macho
+  femea
+}
+
+enum Adocoes_experiencia {
+  Sim
+  N_o @map("Não")
+}
+
+enum Animais_status_adocao {
+  dispon_vel @map("disponível")
+  adotado
+}
+
+enum Voluntariado_experiencia {
+  Sim
+  N_o @map("Não")
+}
+
+enum Usuarios_tipo {
+  adotante
+  voluntario
+  doador
+  admin
+}
