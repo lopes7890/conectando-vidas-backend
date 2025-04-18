@@ -3,7 +3,7 @@ import { Request } from "express";
 // import class
 import { DeleteServiceUser } from "../../services/user/deleteUser.js";
 
-class DeleteUser {
+class DeleteUserController {
     async userDelete(req: Request) {
         try{
             const dataUser = req.user;
@@ -18,4 +18,4 @@ class DeleteUser {
     };
 };
 
-export {DeleteUser};
+export {DeleteUserController};

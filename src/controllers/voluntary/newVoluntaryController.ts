@@ -5,8 +5,9 @@ import { NewVoluntaryService } from "../../services/voluntary/registerVoluntary.
 class NewVoluntaryController {
     async newVoluntary(req: Request){
         try{
+            const dataUser = req.user
             const service = new NewVoluntaryService()
-            const voluntaryService = await service.registerVoluntaryInDataBase(req.body);
+            const voluntaryService = await service.registerVoluntaryInDataBase(req.body, dataUser.id_usuario);
 
             if (typeof voluntaryService === "object"){
                 return "internal fail, try again";

@@ -54,7 +54,7 @@ ongsRouter.delete("/ong", async (req: Request, res: Response, next: NextFunction
     try{
         const deleteOng = await new DeleteOng().ongDelete(req);
         if (typeof deleteOng === "string"){
-            if (deleteOng === "fill in all the data"){
+            if (deleteOng === "fill in all the data" || deleteOng === "ONG not existed"){
                 res.status(400).json({message: deleteOng});
                 return;
             };

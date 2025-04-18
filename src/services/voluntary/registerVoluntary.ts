@@ -2,7 +2,6 @@ import { Voluntariado_experiencia } from "@prisma/client";
 import prisma from "../../database/dbConfig.js";
 
 interface Voluntary {
-    id_user: number,
     atuation_area: string,
     disponibility?: string,
     age?: number,
@@ -14,19 +13,20 @@ interface Voluntary {
 };
 
 class NewVoluntaryService {
-    async registerVoluntaryInDataBase(dataVoluntary: Voluntary) {
+    async registerVoluntaryInDataBase(dataVoluntary: Voluntary, dataUser: number | undefined) {
         try {
-            const { id_user, atuation_area, disponibility, age, experience, experience_description, reason, interest_area, datailed_disponibility } = dataVoluntary as Voluntary;
+            const { atuation_area, disponibility, age, experience, experience_description, reason, interest_area, datailed_disponibility } = dataVoluntary as Voluntary;
             
-            if (!id_user || !atuation_area){
+            if (!atuation_area){
                 return "fill in all the data";
             };
 
             const date = new Date();
 
+            if(dataUser)
             await prisma.voluntariado.create({
                 data: {
-                    id_usuario: id_user,
+                    id_usuario: dataUser,
                     area_atuacao: atuation_area,
                     disponibilidade: disponibility,
                     data_cadastro: date,
@@ -42,6 +42,7 @@ class NewVoluntaryService {
             return "voluntary registered successfully";
             
         } catch (error) {
+            console.log(error)
             return {message: error};
         };
     };

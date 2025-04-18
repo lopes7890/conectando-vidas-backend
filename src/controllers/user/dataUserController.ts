@@ -1,10 +1,10 @@
 import { Request, Response } from "express";
 
-class DataUser {
+class DataUserController {
     async user(req: Request, res: Response) {
         res.status(200).json(req.user);
         return;
     };
 };
 
-export {DataUser};
+export {DataUserController};

@@ -12,11 +12,15 @@ class DeleteOngService {
                 return "fill in all the data";
             };
     
-            await prisma.oNGs.delete({
+            const deletedOng = await prisma.oNGs.delete({
                 where: {id_ong: id_ong}
             });
-    
-            return "ONG deleted with success";
+            if(deletedOng){
+                return "ONG deleted with success";
+            }
+
+            return "ONG not existed";
+            
         } catch (error){
             return {message: error};
         };
