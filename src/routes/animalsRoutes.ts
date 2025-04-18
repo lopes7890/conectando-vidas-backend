@@ -23,7 +23,7 @@ animalsRoutes.post("/cadastro/animais", verifyTokenLogin, async (req: Request, r
                 return;
             };          
             if(newAnimalToAdotion === "fill in all the data" || newAnimalToAdotion === "existing animal"){
-                res.status(409).json({message: newAnimalToAdotion});
+                res.status(400).json({message: newAnimalToAdotion});
                 return;
             };   
         }; 
@@ -42,7 +42,7 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req: Request, res: Res
         const dataAnimal = await new DataAnimalController().getAnimal(Number(idAnimal));
         if (typeof dataAnimal === "string"){
             if (dataAnimal === "fill in all the data"){
-                res.status(401).json({message: dataAnimal});
+                res.status(400).json({message: dataAnimal});
                 return;
             };
             res.status(500).json({error: dataAnimal});
@@ -61,7 +61,7 @@ animalsRoutes.delete("/animal", verifyTokenLogin, async (req: Request, res: Resp
         const deleteAnimal = await new DeleteAnimal().removeAnimal(req);
         if(typeof deleteAnimal === "string"){
             if(deleteAnimal === "fill in all the data"){
-                res.status(401).json({message: deleteAnimal});
+                res.status(400).json({message: deleteAnimal});
                 return;
             };
             res.status(200).json({message: deleteAnimal});

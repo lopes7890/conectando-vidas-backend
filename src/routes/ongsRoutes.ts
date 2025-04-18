@@ -17,7 +17,7 @@ ongsRouter.post("/cadastro/ong", async (req: Request, res: Response, next: NextF
             };
 
             if (newOngRegister === "fill in all the data"){
-                res.status(409).json({message: newOngRegister});
+                res.status(400).json({message: newOngRegister});
                 return;
             };
 
@@ -37,7 +37,7 @@ ongsRouter.get("/ong", async (req: Request, res: Response, next: NextFunction) =
         const dataOng = await new DataOngController().dataOng(req);
         if (typeof dataOng === "string"){
             if(dataOng === "ONG not existed" || dataOng === "fill in all the data"){
-                res.status(401).json({message: dataOng});
+                res.status(400).json({message: dataOng});
                 return;
             };
             res.status(500).json({error: dataOng});
@@ -54,12 +54,12 @@ ongsRouter.delete("/ong", async (req: Request, res: Response, next: NextFunction
     try{
         const deleteOng = await new DeleteOng().ongDelete(req);
         if (typeof deleteOng === "string"){
-            if (deleteOng !== "fill in all the data"){
-                res.status(200).json(deleteOng);
+            if (deleteOng === "fill in all the data"){
+                res.status(400).json({message: deleteOng});
                 return;
             };
 
-            res.status(401).json(deleteOng);
+            res.status(200).json({message: deleteOng});
             return;
         };
 
