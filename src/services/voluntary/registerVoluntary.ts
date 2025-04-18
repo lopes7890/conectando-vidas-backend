@@ -21,6 +21,14 @@ class NewVoluntaryService {
                 return "fill in all the data";
             };
 
+            const verifyDataBase = await prisma.voluntariado.findFirst({
+                where: {id_usuario: dataUser}
+            });
+
+            if (verifyDataBase) {
+                return "the user is already a volunteer";
+            };
+
             const date = new Date();
 
             if(dataUser)

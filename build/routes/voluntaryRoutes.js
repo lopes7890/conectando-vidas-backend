@@ -3,12 +3,13 @@ import { verifyTokenLogin } from "../middlewares/verifyToken.js";
 import { NewVoluntaryController } from "../controllers/voluntary/newVoluntaryController.js";
 import { DataVoluntaryController } from "../controllers/voluntary/dataVoluntaryController.js";
 import { DeleteVoluntaryController } from "../controllers/voluntary/deleteVoluntaryController.js";
+import { DataAllVoluntarysController } from "../controllers/voluntary/allVoluntaryController.js";
 const voluntaryRoutes = Router();
 voluntaryRoutes.post("/cadastro/voluntario", verifyTokenLogin, async (req, res, next) => {
     try {
         const voluntary = await new NewVoluntaryController().newVoluntary(req);
         if (typeof voluntary === "string") {
-            if (voluntary === "fill in all the data") {
+            if (voluntary === "fill in all the data" || voluntary === "the user is already a volunteer") {
                 res.status(400).json({ message: voluntary });
                 return;
             }
@@ -47,6 +48,21 @@ voluntaryRoutes.get("/voluntario/:id_voluntario", verifyTokenLogin, async (req, 
         }
         res.status(200).json(dataVoluntary);
         return;
+    }
+    catch (error) {
+        next(error);
+    }
+    ;
+});
+voluntaryRoutes.get("/voluntarios", verifyTokenLogin, async (req, res, next) => {
+    try {
+        const allDataVoluntary = await new DataAllVoluntarysController().allVoluntary();
+        if (typeof allDataVoluntary === "string") {
+            res.status(500).json({ message: allDataVoluntary });
+            return;
+        }
+        ;
+        res.status(200).json(allDataVoluntary);
     }
     catch (error) {
         next(error);

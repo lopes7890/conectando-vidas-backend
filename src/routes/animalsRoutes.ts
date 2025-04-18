@@ -4,6 +4,7 @@ import { verifyTokenLogin } from "../middlewares/verifyToken.js";
 // import class
 import { NewAnimalController } from "../controllers/animals/newAnimalController.js";
 import { DataAnimalController } from "../controllers/animals/dataAnimalController.js";
+import { AllDataAnimalController } from "../controllers/animals/allDataAnimalsController.js";
 import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
 
 const animalsRoutes = Router();
@@ -13,15 +14,18 @@ animalsRoutes.post("/cadastro/animais", verifyTokenLogin, async (req: Request, r
     try{
             
         const newAnimalToAdotion = await new NewAnimalController().newAnimal(req);
-        if(typeof newAnimalToAdotion === "string"){               
+        if(typeof newAnimalToAdotion === "string"){      
+
             if(newAnimalToAdotion === "animal registered successfully"){                  
                 res.status(200).json({message: newAnimalToAdotion});
                 return;
-            };  
+            }; 
+
             if(newAnimalToAdotion === "internal fail, try again"){
                 res.status(500).json({message: newAnimalToAdotion});
                 return;
-            };          
+            }; 
+
             if(newAnimalToAdotion === "fill in all the data" || newAnimalToAdotion === "existing animal"){
                 res.status(400).json({message: newAnimalToAdotion});
                 return;
@@ -51,6 +55,23 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req: Request, res: Res
 
         res.status(200).json(dataAnimal);
         return;
+    } catch (error) {
+        next(error);
+    };
+});
+
+animalsRoutes.get("/animals", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const dataAnimal = await new AllDataAnimalController().getAllAnimals();
+
+        if (typeof dataAnimal === "string") {
+            res.status(500).json({message: dataAnimal})
+            return;
+        };
+
+        res.status(200).json(dataAnimal);
+        return;
+
     } catch (error) {
         next(error);
     };

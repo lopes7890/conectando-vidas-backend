@@ -3,6 +3,7 @@ import { verifyTokenLogin } from "../middlewares/verifyToken.js";
 // import class
 import { NewAnimalController } from "../controllers/animals/newAnimalController.js";
 import { DataAnimalController } from "../controllers/animals/dataAnimalController.js";
+import { AllDataAnimalController } from "../controllers/animals/allDataAnimalsController.js";
 import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
 const animalsRoutes = Router();
 animalsRoutes.post("/cadastro/animais", verifyTokenLogin, async (req, res, next) => {
@@ -45,6 +46,22 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req, res, next) => {
             }
             ;
             res.status(500).json({ error: dataAnimal });
+            return;
+        }
+        ;
+        res.status(200).json(dataAnimal);
+        return;
+    }
+    catch (error) {
+        next(error);
+    }
+    ;
+});
+animalsRoutes.get("/animals", verifyTokenLogin, async (req, res, next) => {
+    try {
+        const dataAnimal = await new AllDataAnimalController().getAllAnimals();
+        if (typeof dataAnimal === "string") {
+            res.status(500).json({ message: dataAnimal });
             return;
         }
         ;
