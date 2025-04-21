@@ -8,7 +8,7 @@ import prisma from "../database/dbConfig.js";
 
 type TokenPayload = {
   id_usuario: number
-}
+};
 
 export const verifyTokenLogin = async (req: Request, res: Response, next: NextFunction) => {
 

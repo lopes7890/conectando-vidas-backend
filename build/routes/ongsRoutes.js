@@ -40,11 +40,13 @@ ongsRouter.get("/ong", async (req, res, next) => {
                 return;
             }
             ;
-            res.status(500).json({ error: dataOng });
-            return;
         }
         ;
-        res.status(200).json(dataOng);
+        if (typeof dataOng === "object") {
+            res.status(200).json(dataOng);
+            return;
+        }
+        res.status(500).json({ error: dataOng });
         return;
     }
     catch (error) {

@@ -6,11 +6,11 @@ import { DataVoluntaryController } from "../controllers/voluntary/dataVoluntaryC
 import { DeleteVoluntaryController } from "../controllers/voluntary/deleteVoluntaryController.js";
 import { DataAllVoluntarysController } from "../controllers/voluntary/allVoluntaryController.js";
 
-const voluntaryRoutes = Router();
+const voluntaryRoutes: Router = Router();
 
 voluntaryRoutes.post("/cadastro/voluntario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const voluntary = await new NewVoluntaryController().newVoluntary(req);
+        const voluntary: string | object = await new NewVoluntaryController().newVoluntary(req);
         if (typeof voluntary === "string"){
             if (voluntary === "fill in all the data" || voluntary === "the user is already a volunteer") {
                 res.status(400).json({message: voluntary});
@@ -37,20 +37,24 @@ voluntaryRoutes.post("/cadastro/voluntario", verifyTokenLogin, async (req: Reque
 
 voluntaryRoutes.get("/voluntario/:id_voluntario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const idVoluntary = req.params.id_voluntario;
-        const dataVoluntary = await new DataVoluntaryController().voluntaryData(Number(idVoluntary));
+        const idVoluntary: string = req.params.id_voluntario;
+        const dataVoluntary: string | object | unknown = await new DataVoluntaryController().voluntaryData(Number(idVoluntary));
 
         if (typeof dataVoluntary === "string"){
             if (dataVoluntary === "fill in all the data" || dataVoluntary === "voluntary not existed"){
                 res.status(400).json({message: dataVoluntary});
                 return;
             }
+        }
 
-            res.status(500).json({error: dataVoluntary});
+        if (typeof dataVoluntary === "object"){
+            res.status(200).json(dataVoluntary);
             return;
         }
-        res.status(200).json(dataVoluntary);
+
+        res.status(500).json({error: dataVoluntary});
         return;
+
 
     } catch (error) {
         next(error);
@@ -59,14 +63,20 @@ voluntaryRoutes.get("/voluntario/:id_voluntario", verifyTokenLogin, async (req: 
 
 voluntaryRoutes.get("/voluntarios", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const allDataVoluntary = await new DataAllVoluntarysController().allVoluntary();
+        const allDataVoluntary: string | object | unknown = await new DataAllVoluntarysController().allVoluntary();
 
         if (typeof allDataVoluntary === "string"){
             res.status(500).json({message: allDataVoluntary});
             return;
         };
 
-        res.status(200).json(allDataVoluntary);
+        if (typeof allDataVoluntary === "object"){
+            res.status(200).json(allDataVoluntary);
+            return;
+        }
+
+        res.status(500).json({error: allDataVoluntary});
+        return;
 
     } catch (error) {
         next(error);
@@ -75,7 +85,7 @@ voluntaryRoutes.get("/voluntarios", verifyTokenLogin, async (req: Request, res: 
 
 voluntaryRoutes.delete("/voluntario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const deleteVoluntary = await new DeleteVoluntaryController().deleteVolutary(req)
+        const deleteVoluntary: string | object = await new DeleteVoluntaryController().deleteVolutary(req)
         if (typeof deleteVoluntary === "string"){
             if (deleteVoluntary === "fill in all the data" || deleteVoluntary === "voluntary not existed"){
                 res.status(400).json({message: deleteVoluntary})

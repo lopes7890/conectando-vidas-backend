@@ -1,3 +1,4 @@
+// import class
 import { AllAnimalsService } from "../../services/animals/allAnimals.js";
 class AllDataAnimalController {
     async getAllAnimals() {
@@ -9,6 +10,7 @@ class AllDataAnimalController {
         catch (error) {
             return error;
         }
+        ;
     }
     ;
 }

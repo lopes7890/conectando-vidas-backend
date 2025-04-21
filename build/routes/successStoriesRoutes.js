@@ -36,12 +36,18 @@ storiesRoutes.get("/historias_de_sucesso", verifyTokenLogin, async (req, res, ne
         if (typeof dataStories === "string") {
             if (dataStories === "fill in all the data" || dataStories === "storie not existed") {
                 res.status(400).json({ message: dataStories });
+                return;
             }
             ;
-            res.status(500).json({ error: dataStories });
         }
         ;
-        res.status(200).json(dataStories);
+        if (typeof dataStories === "object") {
+            res.status(200).json(dataStories);
+            return;
+        }
+        ;
+        res.status(500).json({ error: dataStories });
+        return;
     }
     catch (error) {
         next(error);

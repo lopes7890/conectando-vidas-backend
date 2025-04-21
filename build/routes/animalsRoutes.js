@@ -45,11 +45,13 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req, res, next) => {
                 return;
             }
             ;
-            res.status(500).json({ error: dataAnimal });
-            return;
         }
         ;
-        res.status(200).json(dataAnimal);
+        if (typeof dataAnimal === "object") {
+            res.status(200).json(dataAnimal);
+            return;
+        }
+        res.status(500).json({ error: dataAnimal });
         return;
     }
     catch (error) {
@@ -57,15 +59,19 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req, res, next) => {
     }
     ;
 });
-animalsRoutes.get("/animals", verifyTokenLogin, async (req, res, next) => {
+animalsRoutes.get("/animals", async (req, res, next) => {
     try {
-        const dataAnimal = await new AllDataAnimalController().getAllAnimals();
-        if (typeof dataAnimal === "string") {
-            res.status(500).json({ message: dataAnimal });
+        const dataAnimals = await new AllDataAnimalController().getAllAnimals();
+        if (typeof dataAnimals === "string") {
+            res.status(500).json({ message: dataAnimals });
             return;
         }
         ;
-        res.status(200).json(dataAnimal);
+        if (typeof dataAnimals === "object") {
+            res.status(200).json(dataAnimals);
+            return;
+        }
+        res.status(500).json({ error: dataAnimals });
         return;
     }
     catch (error) {

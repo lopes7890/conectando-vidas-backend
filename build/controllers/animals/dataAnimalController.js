@@ -10,6 +10,9 @@ class DataAnimalController {
         catch (error) {
             return error;
         }
+        ;
     }
+    ;
 }
+;
 export { DataAnimalController };

@@ -16,4 +16,4 @@ class DataOngController {
     };
 };
 
-export {DataOngController}
+export {DataOngController};

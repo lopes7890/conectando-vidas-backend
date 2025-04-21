@@ -7,13 +7,13 @@ import { DataAnimalController } from "../controllers/animals/dataAnimalControlle
 import { AllDataAnimalController } from "../controllers/animals/allDataAnimalsController.js";
 import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
 
-const animalsRoutes = Router();
+const animalsRoutes: Router = Router();
 
 
 animalsRoutes.post("/cadastro/animais", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
             
-        const newAnimalToAdotion = await new NewAnimalController().newAnimal(req);
+        const newAnimalToAdotion: string | object = await new NewAnimalController().newAnimal(req);
         if(typeof newAnimalToAdotion === "string"){      
 
             if(newAnimalToAdotion === "animal registered successfully"){                  
@@ -42,34 +42,41 @@ animalsRoutes.post("/cadastro/animais", verifyTokenLogin, async (req: Request, r
 
 animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const idAnimal = req.params.id;
-        const dataAnimal = await new DataAnimalController().getAnimal(Number(idAnimal));
+        const idAnimal: string = req.params.id;
+        const dataAnimal: string | object | unknown = await new DataAnimalController().getAnimal(Number(idAnimal));
         if (typeof dataAnimal === "string"){
             if (dataAnimal === "fill in all the data" || dataAnimal === "animal not existed"){
                 res.status(400).json({message: dataAnimal});
                 return;
             };
-            res.status(500).json({error: dataAnimal});
-            return;
         };
+        if (typeof dataAnimal === "object"){
+            res.status(200).json(dataAnimal);
+            return;
+        }
 
-        res.status(200).json(dataAnimal);
+        res.status(500).json({error: dataAnimal});
         return;
     } catch (error) {
         next(error);
     };
 });
 
-animalsRoutes.get("/animals", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+animalsRoutes.get("/animals", async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const dataAnimal = await new AllDataAnimalController().getAllAnimals();
+        const dataAnimals: string | object | unknown = await new AllDataAnimalController().getAllAnimals();
 
-        if (typeof dataAnimal === "string") {
-            res.status(500).json({message: dataAnimal})
+        if (typeof dataAnimals === "string") {
+            res.status(500).json({message: dataAnimals})
             return;
         };
 
-        res.status(200).json(dataAnimal);
+        if (typeof dataAnimals === "object"){
+            res.status(200).json(dataAnimals);
+            return;
+        }
+
+        res.status(500).json({error: dataAnimals});
         return;
 
     } catch (error) {
@@ -79,7 +86,7 @@ animalsRoutes.get("/animals", verifyTokenLogin, async (req: Request, res: Respon
 
 animalsRoutes.delete("/animal", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const deleteAnimal = await new DeleteAnimal().removeAnimal(req);
+        const deleteAnimal: string | object = await new DeleteAnimal().removeAnimal(req);
         if(typeof deleteAnimal === "string"){
             if(deleteAnimal === "fill in all the data" || deleteAnimal === "animal not existed"){
                 res.status(400).json({message: deleteAnimal});

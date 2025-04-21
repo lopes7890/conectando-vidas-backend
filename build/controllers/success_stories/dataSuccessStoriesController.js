@@ -1,3 +1,4 @@
+// import class
 import { DataStoriesService } from "../../services/success_stories/dataSuccessStories.js";
 class DataSuccessStoriesController {
     async successStories(req) {

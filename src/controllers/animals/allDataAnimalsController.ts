@@ -1,3 +1,4 @@
+// import class
 import { AllAnimalsService } from "../../services/animals/allAnimals.js";
 
 class AllDataAnimalController {
@@ -9,7 +10,7 @@ class AllDataAnimalController {
             return allDataservice;
         } catch (error) {
             return error
-        }
+        };
     };
 };
 

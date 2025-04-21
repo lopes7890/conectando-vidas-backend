@@ -43,10 +43,12 @@ voluntaryRoutes.get("/voluntario/:id_voluntario", verifyTokenLogin, async (req, 
                 res.status(400).json({ message: dataVoluntary });
                 return;
             }
-            res.status(500).json({ error: dataVoluntary });
+        }
+        if (typeof dataVoluntary === "object") {
+            res.status(200).json(dataVoluntary);
             return;
         }
-        res.status(200).json(dataVoluntary);
+        res.status(500).json({ error: dataVoluntary });
         return;
     }
     catch (error) {
@@ -62,7 +64,12 @@ voluntaryRoutes.get("/voluntarios", verifyTokenLogin, async (req, res, next) => 
             return;
         }
         ;
-        res.status(200).json(allDataVoluntary);
+        if (typeof allDataVoluntary === "object") {
+            res.status(200).json(allDataVoluntary);
+            return;
+        }
+        res.status(500).json({ error: allDataVoluntary });
+        return;
     }
     catch (error) {
         next(error);

@@ -9,11 +9,11 @@ import { DataUserController } from "../controllers/user/dataUserController.js";
 import { DeleteUserController } from "../controllers/user/deleteUserController.js";
 
 
-const userRoutes = Router();
+const userRoutes: Router = Router();
 
 userRoutes.post("/cadastro/usuario", async (req: Request, res:Response, next: NextFunction) => {
     try{
-        const newUserRegister = await new CreateUserController().newUser(req);
+        const newUserRegister: string | object = await new CreateUserController().newUser(req);
         if (typeof newUserRegister === "string") {
             switch (newUserRegister) {
                 case "existing user":
@@ -38,7 +38,7 @@ userRoutes.post("/cadastro/usuario", async (req: Request, res:Response, next: Ne
 
 userRoutes.post("/login", async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const userLogin = await new LoginUserController().controllerLogin(req);
+        const userLogin: string | object = await new LoginUserController().controllerLogin(req);
 
         if (typeof userLogin === "string") {
             switch (userLogin){
@@ -77,7 +77,7 @@ userRoutes.get("/usuario", verifyTokenLogin, async (req: Request, res: Response,
 
 userRoutes.delete("/usuario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const deleteUser = await new DeleteUserController().userDelete(req);
+        const deleteUser: string | object | undefined = await new DeleteUserController().userDelete(req);
         if (typeof deleteUser === "string"){
             if (deleteUser === "user not existed"){
                 res.status(400).json({message: deleteUser})

@@ -12,7 +12,6 @@ class NewSuccessStoriesController {
             return registerNewStorie;
         }
         catch (error) {
-            console.log("controller:" + error);
             return { message: error };
         }
         ;
