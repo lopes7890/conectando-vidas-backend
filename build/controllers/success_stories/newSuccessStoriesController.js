@@ -4,7 +4,7 @@ class NewSuccessStoriesController {
     async newStories(req) {
         try {
             const service = new NewStoriesService();
-            const registerNewStorie = await service.registerStoriesInDataBase(req.body);
+            const registerNewStorie = await service.registerStoriesInDataBase(req.body, req);
             if (typeof registerNewStorie === "object") {
                 return "internal fail, try again";
             }

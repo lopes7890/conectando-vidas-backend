@@ -1,29 +1,35 @@
 import { Router } from "express";
 import { verifyTokenLogin } from "../middlewares/verifyToken.js";
+import multer from "multer";
+import { multerConfig } from "../config/multer.js";
 // import class
 import { NewSuccessStoriesController } from "../controllers/success_stories/newSuccessStoriesController.js";
 import { DeleteSuccessStoriesController } from "../controllers/success_stories/deleteSuccessStoriesController.js";
 import { DataSuccessStoriesController } from "../controllers/success_stories/dataSuccessStoriesController.js";
 const storiesRoutes = Router();
-storiesRoutes.post("/cadastro/historias_de_sucesso", verifyTokenLogin, async (req, res, next) => {
+storiesRoutes.post("/cadastro/historias_de_sucesso", multer(multerConfig).single("file"), verifyTokenLogin, async (req, res, next) => {
     try {
         const stories = await new NewSuccessStoriesController().newStories(req);
         if (typeof stories === "string") {
             if (stories === "internal fail, try again") {
                 res.status(500).json({ message: stories });
+                return;
             }
             ;
             if (stories === "fill in all the data") {
                 res.status(400).json({ message: stories });
+                return;
             }
             ;
             if (stories === "storie registered successfuly") {
                 res.status(200).json({ message: stories });
+                return;
             }
             ;
         }
         ;
         res.status(500).json({ error: stories });
+        return;
     }
     catch (error) {
         next(error);

@@ -2,8 +2,9 @@ import prisma from "../../database/dbConfig.js";
 class NewAnimalService {
     async registerAnimalInDataBase(animalData, req) {
         try {
-            const { name, description, age, sex, picture, status_adotion, id_ong } = animalData;
-            if (!name || !sex || !picture || !id_ong) {
+            const { name, description, age, sex, status_adotion, id_ong } = animalData;
+            const image = req.file?.filename;
+            if (!name || !sex || !id_ong || typeof image === "undefined") {
                 return "fill in all the data";
             }
             ;
@@ -15,13 +16,14 @@ class NewAnimalService {
             if (verify) {
                 return "existing animal";
             }
+            ;
             await prisma.animais.create({
                 data: {
                     nome: name,
                     descricao: description,
                     idade: age,
                     sexo: sex,
-                    foto: picture,
+                    foto: image,
                     status_adocao: status_adotion,
                     id_ong: id_ong
                 }

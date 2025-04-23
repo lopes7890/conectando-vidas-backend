@@ -1,4 +1,5 @@
 import prisma from "../../database/dbConfig.js";
+import { deleteImage } from "../../utils/deleteImages.js";
 
 interface IdStories {
     id_stories: number;
@@ -17,6 +18,9 @@ class DeleteStoriesService {
             });
 
             if(deletedStories){
+                if(deletedStories.foto){
+                    deleteImage(deletedStories.foto)
+                }            
                 return "deleted storie with success"; 
             }
 

@@ -1,4 +1,5 @@
 import prisma from "../../database/dbConfig.js";
+import { deleteImage } from "../../utils/deleteImages.js";
 
 interface IdAnimal {
     idAnimal: number;
@@ -18,8 +19,11 @@ class DeleteAnimalService {
             });
 
             if (deletedAnimal){
+                if (deletedAnimal.foto){
+                    deleteImage(deletedAnimal.foto);
+                };
                 return "animal deleted with success";
-            }
+            };
 
             return "animal not existed";
     

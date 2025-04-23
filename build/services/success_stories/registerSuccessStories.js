@@ -1,9 +1,10 @@
 import prisma from "../../database/dbConfig.js";
 class NewStoriesService {
-    async registerStoriesInDataBase(stories) {
+    async registerStoriesInDataBase(stories, req) {
         try {
-            const { id_animal, title, description, picture } = stories;
-            if (!id_animal || !title || !description) {
+            const { id_animal, title, description } = stories;
+            const image = req.file?.filename;
+            if (!id_animal || !title || !description || typeof image === "undefined") {
                 return "fill in all the data";
             }
             ;
@@ -13,7 +14,7 @@ class NewStoriesService {
                     id_animal: id_animal,
                     titulo: title,
                     descricao: description,
-                    foto: picture,
+                    foto: image,
                     data_publicacao: date
                 }
             });

@@ -1,4 +1,5 @@
 import prisma from "../../database/dbConfig.js";
+import { deleteImage } from "../../utils/deleteImages.js";
 ;
 class DeleteStoriesService {
     async deleteServiceStorie(id) {
@@ -12,6 +13,9 @@ class DeleteStoriesService {
                 where: { id_historia: id_stories }
             });
             if (deletedStories) {
+                if (deletedStories.foto) {
+                    deleteImage(deletedStories.foto);
+                }
                 return "deleted storie with success";
             }
             return "storie not existed";

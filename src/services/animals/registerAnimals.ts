@@ -7,7 +7,6 @@ interface Animal {
     description?: string,
     age?: number,
     sex: Animais_sexo,
-    picture: string,
     status_adotion?: Animais_status_adocao,
     id_ong: number
 }
@@ -15,9 +14,11 @@ interface Animal {
 class NewAnimalService {
     async registerAnimalInDataBase(animalData: Animal, req: Request){
         try{
-            const { name, description, age, sex, picture, status_adotion, id_ong } = animalData as Animal;
+            const { name, description, age, sex, status_adotion, id_ong } = animalData as Animal;
 
-            if (!name || !sex || !picture || !id_ong){
+            const image = req.file?.filename;
+
+            if (!name || !sex || !id_ong || typeof image === "undefined"){
                 return "fill in all the data";
             };
 
@@ -25,11 +26,11 @@ class NewAnimalService {
                 where: {nome: name,
                         id_ong: id_ong
                 }
-            })
+            });
 
             if (verify){
                 return "existing animal";
-            }
+            };
 
             await prisma.animais.create({
                 data: {
@@ -37,7 +38,7 @@ class NewAnimalService {
                     descricao: description,
                     idade: age,
                     sexo: sex,
-                    foto: picture,
+                    foto: image,
                     status_adocao: status_adotion,
                     id_ong: id_ong
                 }

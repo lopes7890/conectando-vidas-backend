@@ -1,5 +1,7 @@
 import { Request, Response, NextFunction, Router } from "express";
+import multer from "multer";
 import { verifyTokenLogin } from "../middlewares/verifyToken.js";
+import {multerConfig} from "../config/multer.js";
 
 // import class
 import { NewAnimalController } from "../controllers/animals/newAnimalController.js";
@@ -10,7 +12,7 @@ import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
 const animalsRoutes: Router = Router();
 
 
-animalsRoutes.post("/cadastro/animais", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+animalsRoutes.post("/cadastro/animais", multer(multerConfig).single("file"), verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
             
         const newAnimalToAdotion: string | object = await new NewAnimalController().newAnimal(req);
