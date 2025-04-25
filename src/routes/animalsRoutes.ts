@@ -8,6 +8,7 @@ import { NewAnimalController } from "../controllers/animals/newAnimalController.
 import { DataAnimalController } from "../controllers/animals/dataAnimalController.js";
 import { AllDataAnimalController } from "../controllers/animals/allDataAnimalsController.js";
 import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
+import { UpdateDataAnimal } from "../controllers/animals/updateDataAnimalController.js";
 
 const animalsRoutes: Router = Router();
 
@@ -64,12 +65,39 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req: Request, res: Res
     };
 });
 
+animalsRoutes.put("/animal/adotado", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const update: string | object = await new UpdateDataAnimal().animalUpdate(req);
+        if (typeof update === "string"){
+            if (update === "fill in all the data") {
+                res.status(400).json({message: update});
+                return;
+            };
+
+            if (update === "updated fail") {
+                res.status(500).json({message: update});
+                return;
+            };
+
+            if (update === "updated with successfuly") {
+                res.status(200).json({message: update});
+                return;
+            };
+        };
+
+        res.status(500).json({error: update});
+        return;
+    } catch (error) {
+        next(error);
+    };
+});
+
 animalsRoutes.get("/animals", async (req: Request, res: Response, next: NextFunction) => {
     try{
         const dataAnimals: string | object | unknown = await new AllDataAnimalController().getAllAnimals();
 
         if (typeof dataAnimals === "string") {
-            res.status(500).json({message: dataAnimals})
+            res.status(500).json({message: dataAnimals});
             return;
         };
 

@@ -4,13 +4,13 @@ import { deleteImage } from "../../utils/deleteImages.js";
 class DeleteAnimalService {
     async deleteAnimalInDataBase(id) {
         try {
-            const { idAnimal } = id;
-            if (!idAnimal) {
+            const { id_animal } = id;
+            if (!id_animal) {
                 return "fill in all the data";
             }
             ;
             const deletedAnimal = await prisma.animais.delete({
-                where: { id_animal: idAnimal }
+                where: { id_animal: id_animal }
             });
             if (deletedAnimal) {
                 if (deletedAnimal.foto) {

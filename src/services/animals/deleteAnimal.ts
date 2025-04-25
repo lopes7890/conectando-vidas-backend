@@ -2,20 +2,20 @@ import prisma from "../../database/dbConfig.js";
 import { deleteImage } from "../../utils/deleteImages.js";
 
 interface IdAnimal {
-    idAnimal: number;
+    id_animal: number;
 };
 
 class DeleteAnimalService {
     async deleteAnimalInDataBase(id: IdAnimal) {
         try{
-            const { idAnimal } = id as IdAnimal;
+            const { id_animal } = id as IdAnimal;
 
-            if(!idAnimal){
+            if(!id_animal){
                 return "fill in all the data";
             };
     
             const deletedAnimal = await prisma.animais.delete({
-                where: {id_animal: idAnimal}
+                where: {id_animal: id_animal}
             });
 
             if (deletedAnimal){

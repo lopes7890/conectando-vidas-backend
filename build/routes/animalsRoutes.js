@@ -7,6 +7,7 @@ import { NewAnimalController } from "../controllers/animals/newAnimalController.
 import { DataAnimalController } from "../controllers/animals/dataAnimalController.js";
 import { AllDataAnimalController } from "../controllers/animals/allDataAnimalsController.js";
 import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
+import { UpdateDataAnimal } from "../controllers/animals/updateDataAnimalController.js";
 const animalsRoutes = Router();
 animalsRoutes.post("/cadastro/animais", multer(multerConfig).single("file"), verifyTokenLogin, async (req, res, next) => {
     try {
@@ -54,6 +55,35 @@ animalsRoutes.get("/animal/:id", verifyTokenLogin, async (req, res, next) => {
             return;
         }
         res.status(500).json({ error: dataAnimal });
+        return;
+    }
+    catch (error) {
+        next(error);
+    }
+    ;
+});
+animalsRoutes.put("/animal/adotado", verifyTokenLogin, async (req, res, next) => {
+    try {
+        const update = await new UpdateDataAnimal().animalUpdate(req);
+        if (typeof update === "string") {
+            if (update === "fill in all the data") {
+                res.status(400).json({ message: update });
+                return;
+            }
+            ;
+            if (update === "updated fail") {
+                res.status(500).json({ message: update });
+                return;
+            }
+            ;
+            if (update === "updated with successfuly") {
+                res.status(200).json({ message: update });
+                return;
+            }
+            ;
+        }
+        ;
+        res.status(500).json({ error: update });
         return;
     }
     catch (error) {
