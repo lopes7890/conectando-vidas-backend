@@ -5,6 +5,7 @@ import { CreateUserController } from "../controllers/user/newUserController.js";
 import { LoginUserController } from "../controllers/user/loginUserController.js";
 import { DataUserController } from "../controllers/user/dataUserController.js";
 import { DeleteUserController } from "../controllers/user/deleteUserController.js";
+import { UpdateDataUserController } from "../controllers/user/updateUserController.js";
 const userRoutes = Router();
 userRoutes.post("/cadastro/usuario", async (req, res, next) => {
     try {
@@ -72,6 +73,31 @@ userRoutes.get("/usuario", verifyTokenLogin, async (req, res, next) => {
     }
     ;
 });
+userRoutes.put("/atualizar/usuario", verifyTokenLogin, async (req, res, next) => {
+    try {
+        const updateUser = await new UpdateDataUserController().updateDataUser(req);
+        if (typeof updateUser === "string") {
+            if (updateUser === "updated with successfuly") {
+                res.status(200).json({ message: updateUser });
+                return;
+            }
+            if (updateUser === "fill in at least one field") {
+                res.status(400).json({ message: updateUser });
+                return;
+            }
+            res.status(500).json({ message: updateUser });
+            return;
+        }
+        if (typeof updateUser === "object" || typeof updateUser === "undefined") {
+            res.status(500).json({ error: updateUser });
+            return;
+        }
+    }
+    catch (error) {
+        next(error);
+    }
+    ;
+});
 userRoutes.delete("/usuario", verifyTokenLogin, async (req, res, next) => {
     try {
         const deleteUser = await new DeleteUserController().userDelete(req);
@@ -81,9 +107,11 @@ userRoutes.delete("/usuario", verifyTokenLogin, async (req, res, next) => {
                 return;
             }
             res.status(200).json({ message: deleteUser });
+            return;
         }
         ;
         res.status(500).json({ error: deleteUser });
+        return;
     }
     catch (error) {
         next(error);
