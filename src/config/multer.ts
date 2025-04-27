@@ -1,13 +1,17 @@
-import { randomBytes } from "crypto";
-import { Options, diskStorage } from "multer";
+//import { randomBytes } from "crypto";
+import multer from "multer";
 //import { resolve, extname } from "path";
-import { fileURLToPath } from "url";
-import { dirname, resolve, extname } from "path";
+//import { fileURLToPath } from "url";
+//import { dirname, resolve, extname } from "path";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+//const __filename = fileURLToPath(import.meta.url);
+//const __dirname = dirname(__filename);
 
-export const multerConfig = {
+export const multerConfig = multer({
+    storage: multer.memoryStorage()
+  });
+
+/* export const multerConfig = {
     dest: resolve(__dirname, "..", "..", "uploads"),
     storage: diskStorage({
         destination: (req, file, callback) => {
@@ -37,4 +41,4 @@ export const multerConfig = {
             callback(new Error("format not accepted"));
         }
     }
-} as Options;
+} as Options; */

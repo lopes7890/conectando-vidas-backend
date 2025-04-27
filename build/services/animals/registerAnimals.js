@@ -1,9 +1,11 @@
 import prisma from "../../database/dbConfig.js";
+import cloudinary from "../../config/cloudinary.js";
+import streamifier from "streamifier";
 class NewAnimalService {
     async registerAnimalInDataBase(animalData, req) {
         try {
             const { name, description, age, sex, status_adotion, id_ong } = animalData;
-            const image = req.file?.filename;
+            const image = req.file;
             if (!name || !sex || !id_ong || typeof image === "undefined") {
                 return "fill in all the data";
             }
@@ -19,13 +21,24 @@ class NewAnimalService {
                 return "existing animal";
             }
             ;
+            const uploadedImage = await new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream({ folder: "animais" }, (error, result) => {
+                    if (error || !result) {
+                        reject(error);
+                    }
+                    else {
+                        resolve({ url: result.secure_url });
+                    }
+                });
+                streamifier.createReadStream(image.buffer).pipe(uploadStream);
+            });
             await prisma.animais.create({
                 data: {
                     nome: name,
                     descricao: description,
                     idade: numberAge,
                     sexo: sex,
-                    foto: image,
+                    foto: uploadedImage.url,
                     status_adocao: status_adotion,
                     id_ong: numberIdOng
                 }

@@ -13,7 +13,7 @@ import { UpdateDataAnimal } from "../controllers/animals/updateDataAnimalControl
 const animalsRoutes: Router = Router();
 
 
-animalsRoutes.post("/cadastro/animais", multer(multerConfig).single("file"), verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+animalsRoutes.post("/cadastro/animais", multerConfig.single("file"), verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
             
         const newAnimalToAdotion: string | object = await new NewAnimalController().newAnimal(req);

@@ -14,7 +14,7 @@ import { DataSuccessStoriesController } from "../controllers/success_stories/dat
 
 const storiesRoutes: Router = Router();
 
-storiesRoutes.post("/cadastro/historias_de_sucesso", multer(multerConfig).single("file"), verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+storiesRoutes.post("/cadastro/historias_de_sucesso", multerConfig.single("file"), verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try {
         const stories: string | object = await new NewSuccessStoriesController().newStories(req);
         if (typeof stories === "string"){

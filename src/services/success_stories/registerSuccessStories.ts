@@ -1,5 +1,7 @@
 import { Request } from "express";
 import prisma from "../../database/dbConfig.js";
+import cloudinary from "../../config/cloudinary.js";
+import streamifier from "streamifier";
 
 interface SuccessStories {
     id_animal: number,
@@ -13,7 +15,7 @@ class NewStoriesService {
 
             const { id_animal, title, description } = stories as SuccessStories;
 
-            const image = req.file?.filename;
+            const image = req.file;
 
             if (!id_animal || !title || !description || typeof image === "undefined") {
                 return "fill in all the data";
@@ -21,13 +23,28 @@ class NewStoriesService {
 
             const date = new Date();
 
+                        const uploadedImage = await new Promise<{ url: string }>((resolve, reject) => {
+                            const uploadStream = cloudinary.uploader.upload_stream(
+                                { folder: "stories" }, 
+                                (error, result) => {
+                                    if (error || !result) {
+                                        reject(error);
+                                    } else {
+                                        resolve({ url: result.secure_url });
+                                    }
+                                }
+                            );
+            
+                            streamifier.createReadStream(image.buffer).pipe(uploadStream);
+                        });
+
 
             await prisma.historias_de_Sucesso.create({
                 data: {
                     id_animal: id_animal,
                     titulo: title,
                     descricao: description,
-                    foto: image,
+                    foto: uploadedImage.url,
                     data_publicacao: date
                 }
             });

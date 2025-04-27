@@ -1,13 +1,12 @@
 import { Router } from "express";
 import { verifyTokenLogin } from "../middlewares/verifyToken.js";
-import multer from "multer";
 import { multerConfig } from "../config/multer.js";
 // import class
 import { NewSuccessStoriesController } from "../controllers/success_stories/newSuccessStoriesController.js";
 import { DeleteSuccessStoriesController } from "../controllers/success_stories/deleteSuccessStoriesController.js";
 import { DataSuccessStoriesController } from "../controllers/success_stories/dataSuccessStoriesController.js";
 const storiesRoutes = Router();
-storiesRoutes.post("/cadastro/historias_de_sucesso", multer(multerConfig).single("file"), verifyTokenLogin, async (req, res, next) => {
+storiesRoutes.post("/cadastro/historias_de_sucesso", multerConfig.single("file"), verifyTokenLogin, async (req, res, next) => {
     try {
         const stories = await new NewSuccessStoriesController().newStories(req);
         if (typeof stories === "string") {
