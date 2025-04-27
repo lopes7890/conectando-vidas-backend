@@ -8,9 +8,11 @@ class NewAnimalService {
                 return "fill in all the data";
             }
             ;
+            const numberAge = Number(age);
+            const numberIdOng = Number(id_ong);
             const verify = await prisma.animais.findFirst({
                 where: { nome: name,
-                    id_ong: id_ong
+                    id_ong: numberIdOng
                 }
             });
             if (verify) {
@@ -21,11 +23,11 @@ class NewAnimalService {
                 data: {
                     nome: name,
                     descricao: description,
-                    idade: age,
+                    idade: numberAge,
                     sexo: sex,
                     foto: image,
                     status_adocao: status_adotion,
-                    id_ong: id_ong
+                    id_ong: numberIdOng
                 }
             });
             return "animal registered successfully";
