@@ -5,7 +5,7 @@ interface IdVoluntary {
 };
 
 class DeleteVoluntaryService {
-    async deleteVoluntaryInDataBase (id: IdVoluntary) {
+    async deleteVoluntaryInDataBase (id: IdVoluntary, idUser: number) {
         try {
 
             const { id_voluntary } = id as IdVoluntary;
@@ -19,6 +19,15 @@ class DeleteVoluntaryService {
             });
 
             if(deletedVoluntary){
+                await prisma.usuarios.update({
+                    where: {
+                        id_usuario: idUser
+                    },
+                    data: {
+                        tipo: "adotante"
+                    }
+                });
+                
                 return "voluntary deleted successfully";
             }
 

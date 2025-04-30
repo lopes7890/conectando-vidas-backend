@@ -85,7 +85,7 @@ voluntaryRoutes.get("/voluntarios", verifyTokenLogin, async (req: Request, res: 
 
 voluntaryRoutes.delete("/voluntario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const deleteVoluntary: string | object = await new DeleteVoluntaryController().deleteVolutary(req)
+        const deleteVoluntary: string | object | undefined = await new DeleteVoluntaryController().deleteVolutary(req)
         if (typeof deleteVoluntary === "string"){
             if (deleteVoluntary === "fill in all the data" || deleteVoluntary === "voluntary not existed"){
                 res.status(400).json({message: deleteVoluntary})

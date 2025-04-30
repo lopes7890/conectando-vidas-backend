@@ -1,7 +1,7 @@
 import prisma from "../../database/dbConfig.js";
 ;
 class DeleteVoluntaryService {
-    async deleteVoluntaryInDataBase(id) {
+    async deleteVoluntaryInDataBase(id, idUser) {
         try {
             const { id_voluntary } = id;
             if (!id_voluntary) {
@@ -12,6 +12,14 @@ class DeleteVoluntaryService {
                 where: { id_voluntariado: id_voluntary }
             });
             if (deletedVoluntary) {
+                await prisma.usuarios.update({
+                    where: {
+                        id_usuario: idUser
+                    },
+                    data: {
+                        tipo: "adotante"
+                    }
+                });
                 return "voluntary deleted successfully";
             }
             return "voluntary not existed";
