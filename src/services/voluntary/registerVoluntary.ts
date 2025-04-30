@@ -1,8 +1,8 @@
-import { Voluntariado_experiencia } from "@prisma/client";
+import { Area_interesse, Voluntariado_experiencia } from "@prisma/client";
 import prisma from "../../database/dbConfig.js";
 
 interface Voluntary {
-    atuation_area: string,
+    atuation_area: Area_interesse,
     disponibility?: string,
     age?: number,
     experience?: Voluntariado_experiencia,
@@ -31,21 +31,33 @@ class NewVoluntaryService {
 
             const date = new Date();
 
-            if(dataUser)
-            await prisma.voluntariado.create({
-                data: {
-                    id_usuario: dataUser,
-                    area_atuacao: atuation_area,
-                    disponibilidade: disponibility,
-                    data_cadastro: date,
-                    idade: age,
-                    experiencia: experience,
-                    descricao_experiencia: experience_description,
-                    motivo: reason,
-                    areas_interesse: interest_area,
-                    disponibilidade_detalhada: datailed_disponibility
-                }
-            });
+            if(dataUser){
+                const register = await prisma.voluntariado.create({
+                    data: {
+                        id_usuario: dataUser,
+                        area_atuacao: atuation_area,
+                        disponibilidade: disponibility,
+                        data_cadastro: date,
+                        idade: age,
+                        experiencia: experience,
+                        descricao_experiencia: experience_description,
+                        motivo: reason,
+                        areas_interesse: interest_area,
+                        disponibilidade_detalhada: datailed_disponibility
+                    }
+                });
+
+                if (register){
+                    await prisma.usuarios.update({
+                        where: {
+                            id_usuario: dataUser
+                        },
+                        data: {
+                            tipo: "voluntario"
+                        }
+                    });
+                };
+            };
 
             return "voluntary registered successfully";
             

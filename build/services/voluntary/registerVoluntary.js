@@ -16,8 +16,8 @@ class NewVoluntaryService {
             }
             ;
             const date = new Date();
-            if (dataUser)
-                await prisma.voluntariado.create({
+            if (dataUser) {
+                const register = await prisma.voluntariado.create({
                     data: {
                         id_usuario: dataUser,
                         area_atuacao: atuation_area,
@@ -31,6 +31,19 @@ class NewVoluntaryService {
                         disponibilidade_detalhada: datailed_disponibility
                     }
                 });
+                if (register) {
+                    await prisma.usuarios.update({
+                        where: {
+                            id_usuario: dataUser
+                        },
+                        data: {
+                            tipo: "voluntario"
+                        }
+                    });
+                }
+                ;
+            }
+            ;
             return "voluntary registered successfully";
         }
         catch (error) {

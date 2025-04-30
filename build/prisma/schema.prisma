@@ -142,3 +142,11 @@ enum Usuarios_tipo {
   doador
   admin
 }
+
+enum Area_interesse {
+  Cuidado_com_animais
+  Eventos
+  Administração
+  Outros
+}
+
