@@ -2,13 +2,13 @@ import { Area_interesse, Voluntariado_experiencia } from "@prisma/client";
 import prisma from "../../database/dbConfig.js";
 
 interface Voluntary {
-    atuation_area: Area_interesse,
+    atuation_area: string,
     disponibility?: string,
     age?: number,
     experience?: Voluntariado_experiencia,
     experience_description?: string
     reason?: string,
-    interest_area?: string,
+    interest_area?: Area_interesse,
     datailed_disponibility?: string
 };
 
