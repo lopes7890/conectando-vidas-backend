@@ -3,8 +3,17 @@ import prisma from "../../database/dbConfig.js";
 class UpdateDataUserService {
     async updateDataUserInDataBase(dataUser, idUser) {
         try {
-            const { email, phone, street, numberHome, postalCode, city, state, type } = dataUser;
-            if (!email && !phone && !street && !numberHome && !postalCode && !city && !state && !type) {
+            const dataToUpdate = {
+                ...(dataUser.email !== undefined && { email: dataUser.email }),
+                ...(dataUser.phone !== undefined && { telefone: dataUser.phone }),
+                ...(dataUser.street !== undefined && { rua: dataUser.street }),
+                ...(dataUser.numberHome !== undefined && { numero: dataUser.numberHome }),
+                ...(dataUser.postalCode !== undefined && { cep: dataUser.postalCode }),
+                ...(dataUser.city !== undefined && { cidade: dataUser.city }),
+                ...(dataUser.state !== undefined && { estado: dataUser.state }),
+                ...(dataUser.type !== undefined && { tipo: dataUser.type }),
+            };
+            if (Object.keys(dataToUpdate).length === 0) {
                 return "fill in at least one field";
             }
             ;
@@ -12,16 +21,7 @@ class UpdateDataUserService {
                 where: {
                     id_usuario: idUser
                 },
-                data: {
-                    email: email,
-                    telefone: phone,
-                    rua: street,
-                    numero: numberHome,
-                    cep: postalCode,
-                    cidade: city,
-                    estado: state,
-                    tipo: type
-                }
+                data: dataToUpdate
             });
             if (updateDataBase) {
                 return "updated with successfuly";
