@@ -16,16 +16,22 @@ class UpdateDataUserService {
     async updateDataUserInDataBase(dataUser: DataUser, idUser: number) {
         try {
 
-            const dataToUpdate = {
-                ...(dataUser.email !== undefined && { email: dataUser.email }),
-                ...(dataUser.phone !== undefined && { telefone: dataUser.phone }),
-                ...(dataUser.street !== undefined && { rua: dataUser.street }),
-                ...(dataUser.numberHome !== undefined && { numero: dataUser.numberHome }),
-                ...(dataUser.postalCode !== undefined && { cep: dataUser.postalCode }),
-                ...(dataUser.city !== undefined && { cidade: dataUser.city }),
-                ...(dataUser.state !== undefined && { estado: dataUser.state }),
-                ...(dataUser.type !== undefined && { tipo: dataUser.type }),
-            };
+            const dataToUpdate: any = {};
+
+            for (const [key, value] of Object.entries(dataUser)) {
+              if (value !== undefined && value !== null) {
+                switch (key) {
+                  case 'phone': dataToUpdate.telefone = value; break;
+                  case 'street': dataToUpdate.rua = value; break;
+                  case 'numberHome': dataToUpdate.numero = value; break;
+                  case 'postalCode': dataToUpdate.cep = value; break;
+                  case 'city': dataToUpdate.cidade = value; break;
+                  case 'state': dataToUpdate.estado = value; break;
+                  case 'type': dataToUpdate.tipo = value; break;
+                  case 'email': dataToUpdate.email = value; break;
+                }
+              }
+            }
 
             if (Object.keys(dataToUpdate).length === 0) {
                 return "fill in at least one field";
