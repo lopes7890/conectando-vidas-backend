@@ -17,7 +17,7 @@ class UpdateDataUserService {
         try {
             const { email, phone, street, numberHome, postalCode, city, state, type } = dataUser as DataUser;
 
-            if (!email || !phone || !street || !numberHome || !postalCode || !city || !state || !type) {
+            if (!email && !phone && !street && !numberHome && !postalCode && !city && !state && !type) {
                 return "fill in at least one field";
             };
 

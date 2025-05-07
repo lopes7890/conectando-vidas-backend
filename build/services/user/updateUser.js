@@ -4,7 +4,7 @@ class UpdateDataUserService {
     async updateDataUserInDataBase(dataUser, idUser) {
         try {
             const { email, phone, street, numberHome, postalCode, city, state, type } = dataUser;
-            if (!email || !phone || !street || !numberHome || !postalCode || !city || !state || !type) {
+            if (!email && !phone && !street && !numberHome && !postalCode && !city && !state && !type) {
                 return "fill in at least one field";
             }
             ;
