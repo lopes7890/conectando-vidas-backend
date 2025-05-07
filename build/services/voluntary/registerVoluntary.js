@@ -3,8 +3,8 @@ import prisma from "../../database/dbConfig.js";
 class NewVoluntaryService {
     async registerVoluntaryInDataBase(dataVoluntary, dataUser) {
         try {
-            const { atuation_area, disponibility, age, experience, experience_description, reason, interest_area, datailed_disponibility } = dataVoluntary;
-            if (!atuation_area) {
+            const { disponibility, age, experience, experience_description, reason, interest_area, datailed_disponibility } = dataVoluntary;
+            if (!interest_area || !experience || !experience_description || !reason) {
                 return "fill in all the data";
             }
             ;
@@ -20,7 +20,6 @@ class NewVoluntaryService {
                 const register = await prisma.voluntariado.create({
                     data: {
                         id_usuario: dataUser,
-                        area_atuacao: atuation_area,
                         disponibilidade: disponibility,
                         data_cadastro: date,
                         idade: age,
