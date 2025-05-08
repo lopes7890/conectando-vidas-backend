@@ -6,8 +6,8 @@ import { DataStoriesService } from "../../services/success_stories/dataSuccessSt
 class DataSuccessStoriesController {
     async successStories(req: Request) {
         try{
-            const service = new DataStoriesService();
-            const dataStories = service.dataStoriesInDataBase(req.body);
+            const serviceStories = new DataStoriesService();
+            const dataStories = serviceStories.dataStoriesInDataBase(req.body);
 
             return dataStories;
         } catch (error) {

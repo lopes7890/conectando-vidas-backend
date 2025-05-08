@@ -9,6 +9,7 @@ import { DataAnimalController } from "../controllers/animals/dataAnimalControlle
 import { AllDataAnimalController } from "../controllers/animals/allDataAnimalsController.js";
 import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
 import { UpdateDataAnimal } from "../controllers/animals/updateDataAnimalController.js";
+import { LastAnimalsController } from "../controllers/animals/dataLastAnimalsController.js";
 
 const animalsRoutes: Router = Router();
 
@@ -109,6 +110,27 @@ animalsRoutes.get("/animals", async (req: Request, res: Response, next: NextFunc
         res.status(500).json({error: dataAnimals});
         return;
 
+    } catch (error) {
+        next(error);
+    };
+});
+
+animalsRoutes.get("/ultimos/animais", async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        const dataLastAnimals: string | object | unknown = await new LastAnimalsController().getLastAnimals();
+
+        if (typeof dataLastAnimals === "string"){
+            res.status(500).json({message: dataLastAnimals});
+            return;
+        };
+
+        if (typeof dataLastAnimals === "object") {
+            res.status(200).json(dataLastAnimals);
+            return;
+        };
+
+        res.status(500).json({error: dataLastAnimals});
+        return;
     } catch (error) {
         next(error);
     };

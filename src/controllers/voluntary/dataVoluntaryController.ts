@@ -3,8 +3,8 @@ import { DataVoluntaryService } from "../../services/voluntary/dataVoluntary.js"
 class DataVoluntaryController {
     async voluntaryData (id: number) {
         try {
-            const service = new DataVoluntaryService();
-            const dataService = await service.dataVoluntaryInDataBase(id);
+            const serviceDataVoluntary = new DataVoluntaryService();
+            const dataService = await serviceDataVoluntary.dataVoluntaryInDataBase(id);
 
             return dataService;
         } catch (error) {

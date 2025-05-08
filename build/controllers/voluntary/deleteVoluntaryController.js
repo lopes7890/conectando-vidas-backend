@@ -4,8 +4,8 @@ class DeleteVoluntaryController {
         try {
             const dataUser = req.user;
             if (dataUser.id_usuario) {
-                const service = new DeleteVoluntaryService();
-                const deleteService = service.deleteVoluntaryInDataBase(req.body, dataUser.id_usuario);
+                const serviceDelete = new DeleteVoluntaryService();
+                const deleteService = serviceDelete.deleteVoluntaryInDataBase(req.body, dataUser.id_usuario);
                 return deleteService;
             }
             ;

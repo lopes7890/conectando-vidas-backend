@@ -10,25 +10,29 @@ interface Animal {
     age?: number,
     sex: Animais_sexo,
     status_adotion?: Animais_status_adocao,
-    id_ong: number
+    name_ong: string
 }
 
 class NewAnimalService {
     async registerAnimalInDataBase(animalData: Animal, req: Request){
         try{
-            const { name, description, age, sex, status_adotion, id_ong } = animalData as Animal;
+            const { name, description, age, sex, status_adotion, name_ong } = animalData as Animal;
 
             const image = req.file;
 
-            if (!name || !sex || !id_ong || typeof image === "undefined"){
+            const verifyOng = await prisma.oNGs.findFirst({
+                where: {nome: name_ong}
+            })
+
+            if (!name || !sex || !verifyOng || typeof image === "undefined"){
                 return "fill in all the data";
             };
             const numberAge = Number(age)
-            const numberIdOng = Number(id_ong)
+            //const numberIdOng = Number(id_ong)
 
             const verify = await prisma.animais.findFirst({
                 where: {nome: name,
-                        id_ong: numberIdOng
+                    id_ong: verifyOng.id_ong
                 }
             });
 
@@ -59,7 +63,7 @@ class NewAnimalService {
                     sexo: sex,
                     foto: uploadedImage.url,
                     status_adocao: status_adotion,
-                    id_ong: numberIdOng
+                    id_ong: verifyOng.id_ong
                 }
             });
 

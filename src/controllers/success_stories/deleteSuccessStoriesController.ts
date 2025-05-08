@@ -6,8 +6,8 @@ import { DeleteStoriesService } from "../../services/success_stories/deleteSucce
 class DeleteSuccessStoriesController {
     async deleteStories(req: Request) {
         try{
-            const service = new DeleteStoriesService();
-            const deleteService = service.deleteServiceStorie(req.body);
+            const serviceDeleteStories = new DeleteStoriesService();
+            const deleteService = serviceDeleteStories.deleteServiceStorie(req.body);
             return deleteService;
         } catch (error) {
             return {message: error};

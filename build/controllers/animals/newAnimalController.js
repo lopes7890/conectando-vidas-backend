@@ -5,13 +5,12 @@ class NewAnimalController {
     async newAnimal(req) {
         try {
             const typeUser = req.user;
-            if (typeUser.tipo === "admin" || typeUser.tipo === "doador") {
-                const newService = new NewAnimalService();
-                const registerNewAnimal = await newService.registerAnimalInDataBase(req.body, req);
-                if (typeof registerNewAnimal === "object") {
-                    return "internal fail, try again";
-                }
-                ;
+            //if(typeUser.tipo === "admin" || typeUser.tipo === "doador"){
+            const newService = new NewAnimalService();
+            const registerNewAnimal = await newService.registerAnimalInDataBase(req.body, req);
+            if (typeof registerNewAnimal === "object") {
+                return "internal fail, try again";
+                //};
                 return registerNewAnimal;
             }
             ;

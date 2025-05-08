@@ -3,8 +3,8 @@ import { AllAnimalsService } from "../../services/animals/allAnimals.js";
 class AllDataAnimalController {
     async getAllAnimals() {
         try {
-            const service = new AllAnimalsService();
-            const allDataservice = await service.DataAllAnimalsInDataBase();
+            const serviceAllAnimals = new AllAnimalsService();
+            const allDataservice = await serviceAllAnimals.DataAllAnimalsInDataBase();
             return allDataservice;
         }
         catch (error) {

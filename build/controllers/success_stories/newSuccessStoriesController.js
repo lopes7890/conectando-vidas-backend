@@ -3,8 +3,8 @@ import { NewStoriesService } from "../../services/success_stories/registerSucces
 class NewSuccessStoriesController {
     async newStories(req) {
         try {
-            const service = new NewStoriesService();
-            const registerNewStorie = await service.registerStoriesInDataBase(req.body, req);
+            const serviceNewStorie = new NewStoriesService();
+            const registerNewStorie = await serviceNewStorie.registerStoriesInDataBase(req.body, req);
             if (typeof registerNewStorie === "object") {
                 return "internal fail, try again";
             }
