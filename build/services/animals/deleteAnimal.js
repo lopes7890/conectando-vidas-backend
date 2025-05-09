@@ -14,7 +14,10 @@ class DeleteAnimalService {
             });
             if (deletedAnimal) {
                 if (deletedAnimal.foto) {
-                    deleteImage(deletedAnimal.foto);
+                    const partes = deletedAnimal.foto.split('/upload/')[1];
+                    const caminhoSemVersao = partes.replace(/^v\d+\//, '');
+                    const publicId = caminhoSemVersao.replace(/\.(jpg|jpeg|png|webp|gif)$/i, '');
+                    deleteImage(publicId);
                 }
                 ;
                 return "animal deleted with success";
