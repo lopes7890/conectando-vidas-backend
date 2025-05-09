@@ -9,7 +9,7 @@ import { DeleteAnimal } from "../controllers/animals/deleteAnimalController.js";
 import { UpdateDataAnimal } from "../controllers/animals/updateDataAnimalController.js";
 import { LastAnimalsController } from "../controllers/animals/dataLastAnimalsController.js";
 const animalsRoutes = Router();
-animalsRoutes.post("/cadastro/animais", multerConfig.single("file"), verifyTokenLogin, async (req, res, next) => {
+animalsRoutes.post("/cadastro/animais", verifyTokenLogin, multerConfig.single("file"), async (req, res, next) => {
     try {
         const newAnimalToAdotion = await new NewAnimalController().newAnimal(req);
         if (typeof newAnimalToAdotion === "string") {

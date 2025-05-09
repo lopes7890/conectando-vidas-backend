@@ -14,7 +14,7 @@ import { LastAnimalsController } from "../controllers/animals/dataLastAnimalsCon
 const animalsRoutes: Router = Router();
 
 
-animalsRoutes.post("/cadastro/animais", multerConfig.single("file"), verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
+animalsRoutes.post("/cadastro/animais",  verifyTokenLogin, multerConfig.single("file"), async (req: Request, res: Response, next: NextFunction) => {
     try{
             
         const newAnimalToAdotion: string | object = await new NewAnimalController().newAnimal(req);
