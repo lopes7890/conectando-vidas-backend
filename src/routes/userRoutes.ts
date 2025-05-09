@@ -68,7 +68,7 @@ userRoutes.get("/usuario", verifyTokenLogin, async (req: Request, res: Response,
     try{
 
         const userData = await new DataUserController().user(req, res);
-        res.send(userData);
+        res.status(200).json(userData);
         return;
 
     } catch (error) {
