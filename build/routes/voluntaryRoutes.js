@@ -19,13 +19,16 @@ voluntaryRoutes.post("/cadastro/voluntario", verifyTokenLogin, async (req, res, 
                 return;
             }
             ;
-            if (voluntary === "voluntary registered successfully") {
-                res.status(200).json({ message: voluntary });
-                return;
-            }
-            ;
+            /*             if (voluntary === "voluntary registered successfully") {
+                            res.status(200).json({message: voluntary});
+                            return;
+                        }; */
         }
         ;
+        if (typeof voluntary === "number") {
+            res.status(200).json({ message: "voluntary registered successfully", idVoluntario: voluntary });
+            return;
+        }
         res.status(500).json({ error: voluntary });
         return;
     }

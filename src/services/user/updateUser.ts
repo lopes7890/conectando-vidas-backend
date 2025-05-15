@@ -10,6 +10,7 @@ interface DataUser {
     city?: string,
     state?: string,
     type?: Usuarios_tipo
+    id_voluntary?: number
 };
 
 class UpdateDataUserService {
@@ -36,6 +37,14 @@ class UpdateDataUserService {
             if (Object.keys(dataToUpdate).length === 0) {
                 return "fill in at least one field";
             };
+
+            if(dataUser.id_voluntary && dataToUpdate.tipo == "adotante"){
+                await prisma.voluntariado.delete({
+                    where: {
+                        id_voluntariado: Number(dataUser.id_voluntary)
+                    }
+                })
+            }
 
             const updateDataBase = await prisma.usuarios.update({
                 where: {

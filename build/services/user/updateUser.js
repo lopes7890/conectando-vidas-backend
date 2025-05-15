@@ -38,6 +38,13 @@ class UpdateDataUserService {
                 return "fill in at least one field";
             }
             ;
+            if (dataUser.id_voluntary && dataToUpdate.tipo == "adotante") {
+                await prisma.voluntariado.delete({
+                    where: {
+                        id_voluntariado: Number(dataUser.id_voluntary)
+                    }
+                });
+            }
             const updateDataBase = await prisma.usuarios.update({
                 where: {
                     id_usuario: idUser

@@ -41,9 +41,10 @@ class NewVoluntaryService {
                     });
                 }
                 ;
+                return register.id_voluntariado;
             }
             ;
-            return "voluntary registered successfully";
+            return "internal fail, try again";
         }
         catch (error) {
             console.log(error);

@@ -10,7 +10,7 @@ const voluntaryRoutes: Router = Router();
 
 voluntaryRoutes.post("/cadastro/voluntario", verifyTokenLogin, async (req: Request, res: Response, next: NextFunction) => {
     try{
-        const voluntary: string | object = await new NewVoluntaryController().newVoluntary(req);
+        const voluntary: string | object | number = await new NewVoluntaryController().newVoluntary(req);
         if (typeof voluntary === "string"){
             if (voluntary === "fill in all the data" || voluntary === "the user is already a volunteer") {
                 res.status(400).json({message: voluntary});
@@ -22,14 +22,20 @@ voluntaryRoutes.post("/cadastro/voluntario", verifyTokenLogin, async (req: Reque
                 return;
             };
 
-            if (voluntary === "voluntary registered successfully") {
+/*             if (voluntary === "voluntary registered successfully") {
                 res.status(200).json({message: voluntary});
                 return;
-            };
+            }; */
         };
+
+        if (typeof voluntary === "number"){
+            res.status(200).json({message: "voluntary registered successfully", idVoluntario: voluntary});
+            return;
+        }
 
         res.status(500).json({error: voluntary})
         return;
+        
     } catch (error) {
         next(error);
     };
