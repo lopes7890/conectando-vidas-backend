@@ -102,7 +102,6 @@ model Usuarios {
 model Voluntariado {
   id_voluntariado           Int                       @id @default(autoincrement())
   id_usuario                Int
-  area_atuacao              String?                   @db.VarChar(100)
   disponibilidade           String?                   @db.VarChar(100)
   data_cadastro             DateTime?                 @db.Date
   idade                     Int?
@@ -149,4 +148,3 @@ enum Area_interesse {
   Administração
   Outros
 }
-
